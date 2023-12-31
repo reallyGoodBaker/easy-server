@@ -1,9 +1,0 @@
-export declare const Get: (path?: string | RegExp) => MethodDecorator;
-export declare const Post: (path?: string | RegExp) => MethodDecorator;
-export declare const Head: (path?: string | RegExp) => MethodDecorator;
-export declare const Put: (path?: string | RegExp) => MethodDecorator;
-export declare const Delete: (path?: string | RegExp) => MethodDecorator;
-export declare const Connect: (path?: string | RegExp) => MethodDecorator;
-export declare const Options: (path?: string | RegExp) => MethodDecorator;
-export declare const Trace: (path?: string | RegExp) => MethodDecorator;
-export declare const Patch: (path?: string | RegExp) => MethodDecorator;
