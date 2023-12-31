@@ -71,8 +71,8 @@ class MethodCaller {
         this.#args[index] = arg;
         return this;
     }
-    call(thisArg) {
-        return this.method.apply(thisArg, this.#args);
+    async call(thisArg) {
+        return await this.method.apply(thisArg, this.#args);
     }
 }
 exports.MethodCaller = MethodCaller;

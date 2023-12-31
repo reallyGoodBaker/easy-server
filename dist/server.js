@@ -47,8 +47,8 @@ async function handle(instance, method, reqUrl, req, res, status, patternResult)
             break loop;
         }
     }
-    const val = caller.call(instance);
-    if (val === void 0) {
+    const val = await caller.call(instance);
+    if (val === undefined) {
         //空响应体
         return status.emptyBody();
     }
@@ -86,13 +86,13 @@ function createHandler(instance, ctx) {
         }
         const exactlyMatched = methods.find(m => m.addons.get('path') === urlPath);
         if (exactlyMatched) {
-            return handle(instance, exactlyMatched, reqUrl, req, res, status);
+            return await handle(instance, exactlyMatched, reqUrl, req, res, status);
         }
         const method = methods[0];
         const { addons } = method;
         const pathPattern = addons.get('path');
         const result = pathPattern.exec(urlPath);
-        handle(instance, method, reqUrl, req, res, status, result);
+        await handle(instance, method, reqUrl, req, res, status, result);
     };
 }
 const defaultInitMessage = (link) => `\n  serve at: ${link}\n`;

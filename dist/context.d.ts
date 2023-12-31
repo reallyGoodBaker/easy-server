@@ -1,4 +1,4 @@
-declare type Setter<T> = {
+type Setter<T> = {
     readonly value: T;
     set<K extends keyof T>(k: K, v: T[K]): void;
 };
@@ -16,9 +16,9 @@ export interface FunctionDesc {
     args: ArgDesc[];
     addons: Map<string | Function, any>;
 }
-export declare type JSONTypes = "string" | "number" | "boolean" | "null" | "object";
+export type JSONTypes = "string" | "number" | "boolean" | "null" | "object";
 export declare const JSONTypes: JSONTypes[];
-export declare type ArgTypes = JSONTypes | 'response' | 'request' | 'buffer' | 'stream' | Function;
+export type ArgTypes = JSONTypes | 'response' | 'request' | 'buffer' | 'stream' | Function;
 export declare const ArgTypes: ArgTypes[];
 export interface ArgDesc {
     name: string;
@@ -48,6 +48,6 @@ export declare class MethodCaller implements IMethodCaller {
     private method;
     constructor(method: Function);
     setArgument(index: number, arg: any): this;
-    call(thisArg: any): any;
+    call(thisArg: any): Promise<any>;
 }
 export {};

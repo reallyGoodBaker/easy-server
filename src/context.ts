@@ -123,8 +123,8 @@ export class MethodCaller implements IMethodCaller {
         return this
     }
 
-    call(thisArg: any): any {
-        return this.method.apply(thisArg, this.#args)
+    async call(thisArg: any) {
+        return await this.method.apply(thisArg, this.#args)
     }
 
 }

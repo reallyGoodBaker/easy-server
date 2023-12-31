@@ -60,9 +60,9 @@ async function handle(
         }
     }
 
-    const val = caller.call(instance)
+    const val = await caller.call(instance)
 
-    if (val === void 0) {
+    if (val === undefined) {
         //空响应体
         return status.emptyBody()
     }
@@ -115,7 +115,7 @@ function createHandler(instance: any, ctx: IContext) {
         const exactlyMatched = methods.find(m => m.addons.get('path') === urlPath)
 
         if (exactlyMatched) {
-            return handle(instance, exactlyMatched, reqUrl, req, res, status)
+            return await handle(instance, exactlyMatched, reqUrl, req, res, status)
         }
 
         const method = methods[0]
@@ -123,7 +123,7 @@ function createHandler(instance: any, ctx: IContext) {
         const pathPattern = addons.get('path') as RegExp
         const result = pathPattern.exec(urlPath)
 
-        handle(instance, method, reqUrl, req, res, status, result)
+        await handle(instance, method, reqUrl, req, res, status, result)
     }
 }
 
