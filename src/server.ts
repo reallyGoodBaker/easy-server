@@ -6,12 +6,13 @@ import chalk from "chalk"
 import type { ListenOptions } from 'net'
 import type { Plugin } from "./plugins/type"
 
-import QueryResolver from "./plugins/query"
-import BodyResolver from "./plugins/body"
-import { HeadersResolver } from "./plugins/headers"
-import { ParameterResolver } from "./plugins/parameter"
-import { PatternResolver } from "./plugins/pattern"
+import QueryResolver from "./plugins/internal/query"
+import BodyResolver from "./plugins/internal/body"
+import { HeadersResolver } from "./plugins/internal/headers"
+import { ParameterResolver } from "./plugins/internal/parameter"
+import { PatternResolver } from "./plugins/internal/pattern"
 import { HttpStatus } from "./http-status"
+import { CrossOriginResolver } from "./plugins/internal/cross-origin"
 
 
 const controllersMapping = new Map()
@@ -43,7 +44,15 @@ async function handle(
 
     loop: for (const plugin of pluginSet) {
         try {
-            if (await plugin.call(null, instance, method, res, req, reqUrl, caller, patternResult)) {
+            if (await plugin.call(null, {
+                inst: instance,
+                method,
+                res,
+                req,
+                url: reqUrl,
+                caller,
+                patternResult
+            })) {
                 break loop
             }
         } catch {
@@ -118,17 +127,17 @@ function createHandler(instance: any, ctx: IContext) {
     }
 }
 
+const defaultInitMessage = (link: any) => `\n  serve at: ${link}\n`
+
 function initMessage(opt: ListenOptions) {
     const link = chalk.cyan(`http://${opt.host}:${opt.port}`)
 
-    return `
-    serve at: ${link}
-    `
+    return defaultInitMessage(link)
 }
 
 const defaultOpt = {
     port: 3000,
-    host: '127.0.0.1',
+    host: 'localhost',
 }
 
 export function listen(opt?: ListenOptions | number) {
@@ -164,6 +173,7 @@ export function listen(opt?: ListenOptions | number) {
 
 const pluginSet = new Set<Plugin>([
     HeadersResolver,
+    CrossOriginResolver,
     QueryResolver,
     BodyResolver,
     ParameterResolver,

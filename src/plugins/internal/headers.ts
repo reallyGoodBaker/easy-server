@@ -1,6 +1,6 @@
-import { Plugin } from "./type"
+import { Plugin } from "../type"
 
-export const HeadersResolver: Plugin = (inst, method, res) => {
+export const HeadersResolver: Plugin = ({ method, res }) => {
     const addons = method.addons
 
     if (addons.has('headers')) {

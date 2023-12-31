@@ -31,13 +31,13 @@ export interface FunctionDesc {
     name: string
     isAsync: boolean
     args: ArgDesc[]
-    addons: Map<string, any>
+    addons: Map<string | Function, any>
 }
 
 export type JSONTypes = "string" | "number" | "boolean" | "null" | "object"
 export const JSONTypes: JSONTypes[] = ["string", "number", "boolean", "null", "object"]
 
-export type ArgTypes = JSONTypes | 'response' | 'request' | 'buffer' | 'stream'
+export type ArgTypes = JSONTypes | 'response' | 'request' | 'buffer' | 'stream' | Function
 export const ArgTypes: ArgTypes[] = [...JSONTypes, "response", "request", "buffer", "stream"]
 
 export interface ArgDesc {
@@ -110,6 +110,7 @@ export interface IMethodCaller {
 }
 
 export class MethodCaller implements IMethodCaller {
+
     #args: any[] = []
     
     constructor(

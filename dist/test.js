@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("./decorators/index");
-const util_1 = require("./plugins/util");
+const utf8_1 = require("./plugins/util/utf8");
 const server_1 = __importDefault(require("./server"));
 let MyResolver = class MyResolver {
     hello(name, age, job) {
@@ -87,5 +87,5 @@ StudentResolver = __decorate([
 server_1.default
     .addController(MyResolver)
     .addController(StudentResolver)
-    .addPlugin(util_1.UTF8)
+    .addPlugin(utf8_1.UTF8)
     .listen();

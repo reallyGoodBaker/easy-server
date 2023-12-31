@@ -1,5 +1,5 @@
-import type { Plugin } from './type'
-import type { JSONTypes } from "../context"
+import type { Plugin } from '../type'
+import type { JSONTypes } from "../../context"
 import qstr from 'node:querystring'
 
 const convertor = {
@@ -22,13 +22,17 @@ function convertType(v: string | string[], type: JSONTypes) {
     }
 }
 
-export const QueryResolver: Plugin = (inst, method, res, req, reqUrl, caller) => {
+export const QueryResolver: Plugin = ({ method, url: reqUrl, caller }) => {
     const addons = method.addons
     const reqDataType = addons.get('paramType')
 
     if (reqDataType === 'query') {
         const queryObj = qstr.parse(reqUrl.query ?? '')
         method.args.forEach(({ index, name, type }) => {
+            if (typeof type === 'function') {
+                return
+            }
+
             if (type in convertor) {
                 const rawData = queryObj[name]
                 

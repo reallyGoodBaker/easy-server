@@ -14,7 +14,7 @@ function deconstruct(func) {
         str = str.replace(asyncIdentifier, '$1').trim();
     }
     const [_, _args = ''] = (functionMatcher.exec(str) ?? []);
-    const args = _args.split(',').map(v => v.split('=')[0].trim());
+    const args = _args ? _args.split(',').map(arg => arg.trim()) : [];
     return {
         isAsync,
         args,

@@ -1,6 +1,6 @@
-import { ArgDesc, FunctionDesc, IMethodCaller, JSONTypes } from "../context"
-import { promiseResolvers } from "../util/promise"
-import { Plugin } from "./type"
+import { ArgDesc, FunctionDesc, IMethodCaller, JSONTypes } from "../../context"
+import { promiseResolvers } from "../../util/promise"
+import { Plugin } from "../type"
 
 function handleArgMapping(argDesc: ArgDesc[], json: any, caller: IMethodCaller) {
     for (const { name, index, type } of argDesc) {
@@ -44,7 +44,7 @@ function resolveReceivedBody(
     })
 }
 
-export const BodyResolver: Plugin = async (inst, method, res, req, url, caller) => {
+export const BodyResolver: Plugin = async ({ method, req, caller }) => {
     const addons = method.addons
     const paramType = addons.get('paramType')
 

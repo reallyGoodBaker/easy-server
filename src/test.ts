@@ -2,7 +2,7 @@ import {
     Get, Query, Controller, Post, Param,
     Mapping, Body, Delete, PatternResult, Response, Headers, Options,
 } from './decorators/index'
-import { UTF8 } from './plugins/util'
+import { UTF8 } from './plugins/util/utf8'
 import server from './server'
 import { IncomingMessage, ServerResponse } from 'node:http'
 

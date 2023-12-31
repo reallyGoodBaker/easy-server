@@ -132,5 +132,5 @@ export const PatternResult = createParamDecorator(({ key, index }, ctx) => {
     const method = ctx.method(key)
     const args = method.value.args
 
-    args.push({ name: 'patternResult', type: 'object', index, extra: PatternResult })
+    args.push({ name: 'patternResult', type: PatternResult, index })
 })

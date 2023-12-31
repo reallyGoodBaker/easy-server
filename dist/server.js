@@ -8,12 +8,13 @@ const context_1 = require("./context");
 const node_http_1 = __importDefault(require("node:http"));
 const node_url_1 = __importDefault(require("node:url"));
 const chalk_1 = __importDefault(require("chalk"));
-const query_1 = __importDefault(require("./plugins/query"));
-const body_1 = __importDefault(require("./plugins/body"));
-const headers_1 = require("./plugins/headers");
-const parameter_1 = require("./plugins/parameter");
-const pattern_1 = require("./plugins/pattern");
+const query_1 = __importDefault(require("./plugins/internal/query"));
+const body_1 = __importDefault(require("./plugins/internal/body"));
+const headers_1 = require("./plugins/internal/headers");
+const parameter_1 = require("./plugins/internal/parameter");
+const pattern_1 = require("./plugins/internal/pattern");
 const http_status_1 = require("./http-status");
+const cross_origin_1 = require("./plugins/internal/cross-origin");
 const controllersMapping = new Map();
 function addController(cls) {
     const ctx = context_1.controllers.getContext(cls.prototype);
@@ -30,7 +31,15 @@ async function handle(instance, method, reqUrl, req, res, status, patternResult)
     const caller = new context_1.MethodCaller(instance[method.name]);
     loop: for (const plugin of pluginSet) {
         try {
-            if (await plugin.call(null, instance, method, res, req, reqUrl, caller, patternResult)) {
+            if (await plugin.call(null, {
+                inst: instance,
+                method,
+                res,
+                req,
+                url: reqUrl,
+                caller,
+                patternResult
+            })) {
                 break loop;
             }
         }
@@ -86,15 +95,14 @@ function createHandler(instance, ctx) {
         handle(instance, method, reqUrl, req, res, status, result);
     };
 }
+const defaultInitMessage = (link) => `\n  serve at: ${link}\n`;
 function initMessage(opt) {
     const link = chalk_1.default.cyan(`http://${opt.host}:${opt.port}`);
-    return `
-    serve at: ${link}
-    `;
+    return defaultInitMessage(link);
 }
 const defaultOpt = {
     port: 3000,
-    host: '127.0.0.1',
+    host: 'localhost',
 };
 function listen(opt) {
     let _opt = defaultOpt;
@@ -124,6 +132,7 @@ function listen(opt) {
 exports.listen = listen;
 const pluginSet = new Set([
     headers_1.HeadersResolver,
+    cross_origin_1.CrossOriginResolver,
     query_1.default,
     body_1.default,
     parameter_1.ParameterResolver,

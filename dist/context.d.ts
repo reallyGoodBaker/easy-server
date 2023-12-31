@@ -14,11 +14,11 @@ export interface FunctionDesc {
     name: string;
     isAsync: boolean;
     args: ArgDesc[];
-    addons: Map<string, any>;
+    addons: Map<string | Function, any>;
 }
 export declare type JSONTypes = "string" | "number" | "boolean" | "null" | "object";
 export declare const JSONTypes: JSONTypes[];
-export declare type ArgTypes = JSONTypes | 'response' | 'request' | 'buffer' | 'stream';
+export declare type ArgTypes = JSONTypes | 'response' | 'request' | 'buffer' | 'stream' | Function;
 export declare const ArgTypes: ArgTypes[];
 export interface ArgDesc {
     name: string;

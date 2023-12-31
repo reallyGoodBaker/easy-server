@@ -89,5 +89,5 @@ exports.Mapping = (0, exports.createMethodDecorator)(({ key }, ctx) => {
 exports.PatternResult = (0, exports.createParamDecorator)(({ key, index }, ctx) => {
     const method = ctx.method(key);
     const args = method.value.args;
-    args.push({ name: 'patternResult', type: 'object', index, extra: exports.PatternResult });
+    args.push({ name: 'patternResult', type: exports.PatternResult, index });
 });
