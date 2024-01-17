@@ -94,7 +94,7 @@ export const Controller = (path: string = '/') => {
 export const Headers = (headers: any) => createMethodDecorator(({ key }, ctx) => {
     const addons = ctx.method(key).value.addons
 
-    addons.set('headers', headers)
+    addons.set(Headers, headers)
 })
 
 export const Response = createParamDecorator((param, ctx) => {
@@ -125,7 +125,7 @@ export const Body = (
 export const Mapping = createMethodDecorator(({ key }, ctx) => {
     const addons = ctx.method(key).value.addons
 
-    addons.set('@Mapping', true)
+    addons.set(Mapping, true)
 })
 
 export const PatternResult = createParamDecorator(({ key, index }, ctx) => {

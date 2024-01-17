@@ -1,4 +1,5 @@
 import { ArgDesc, FunctionDesc, IMethodCaller, JSONTypes } from "../../context"
+import { Mapping } from "../../decorators/internal"
 import { promiseResolvers } from "../../util/promise"
 import { Plugin } from "../type"
 
@@ -53,7 +54,7 @@ export const BodyResolver: Plugin = async ({ method, req, caller }) => {
     }
 
     const { promise, resolve } = promiseResolvers<boolean>()
-    const mapping = addons.get('@Mapping')
+    const mapping = addons.get(Mapping)
 
     let buffer = Buffer.alloc(0)
 

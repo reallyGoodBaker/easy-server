@@ -15,12 +15,12 @@ const defaultCrossOriginConf = {
     maxAge: 86400,
     allowOrigin: "*"
 };
-const Cors = (corsConf) => (0, internal_1.createParamDecorator)(({ key, index }, ctx) => {
+const Cors = (corsConf) => (0, internal_1.createMethodDecorator)(({ key }, ctx) => {
     const { addons } = ctx.method(key).value;
     addons.set(exports.Cors, Object.assign({}, defaultCrossOriginConf, corsConf));
 });
 exports.Cors = Cors;
-const CorsFilter = (corsFilterConf) => (0, internal_1.createParamDecorator)(({ key, index }, ctx) => {
+const CorsFilter = (corsFilterConf) => (0, internal_1.createMethodDecorator)(({ key }, ctx) => {
     const { addons } = ctx.method(key).value;
     addons.set(exports.CorsFilter, Object.assign({}, defaultCrossOriginFilterConf, corsFilterConf));
 });

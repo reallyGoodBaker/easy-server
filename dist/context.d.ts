@@ -1,4 +1,4 @@
-type Setter<T> = {
+declare type Setter<T> = {
     readonly value: T;
     set<K extends keyof T>(k: K, v: T[K]): void;
 };
@@ -16,9 +16,9 @@ export interface FunctionDesc {
     args: ArgDesc[];
     addons: Map<string | Function, any>;
 }
-export type JSONTypes = "string" | "number" | "boolean" | "null" | "object";
+export declare type JSONTypes = "string" | "number" | "boolean" | "null" | "object";
 export declare const JSONTypes: JSONTypes[];
-export type ArgTypes = JSONTypes | 'response' | 'request' | 'buffer' | 'stream' | Function;
+export declare type ArgTypes = JSONTypes | 'response' | 'request' | 'buffer' | 'stream' | Function;
 export declare const ArgTypes: ArgTypes[];
 export interface ArgDesc {
     name: string;

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BodyResolver = void 0;
 const context_1 = require("../../context");
+const internal_1 = require("../../decorators/internal");
 const promise_1 = require("../../util/promise");
 function handleArgMapping(argDesc, json, caller) {
     for (const { name, index, type } of argDesc) {
@@ -41,7 +42,7 @@ const BodyResolver = async ({ method, req, caller }) => {
         return false;
     }
     const { promise, resolve } = (0, promise_1.promiseResolvers)();
-    const mapping = addons.get('@Mapping');
+    const mapping = addons.get(internal_1.Mapping);
     let buffer = Buffer.alloc(0);
     req.on('data', chunk => buffer = Buffer.concat([buffer, chunk]));
     req.on('end', () => {

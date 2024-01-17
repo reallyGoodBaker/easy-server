@@ -31,7 +31,7 @@ function checkCorsFilterConf(
     let { origin, requestHeaders, requestMethod } = corsFilterConf
     const _headers = req.headers
 
-    requestHeaders = toArray(requestHeaders)
+    requestHeaders = toArray(requestHeaders!)
 
     if (origin !== '*') {
         if (!_headers.origin || origin !== _headers.origin) {
@@ -62,10 +62,10 @@ function checkCorsFilterConf(
 function setCorsHeaders(
     corsConf: CrossOriginConf, res: ServerResponse<IncomingMessage>
 ) {
-    res.setHeader('Access-Control-Allow-Origin', corsConf.allowOrigin)
-    res.setHeader('Access-Control-Allow-Methods', corsConf.allowMethods)
-    res.setHeader('Access-Control-Allow-Headers', corsConf.allowHeaders)
-    res.setHeader('Access-Control-Max-Age', corsConf.maxAge)
-    res.setHeader('Access-Control-Allow-Credentials', corsConf.allowCredentials.toString())
-    res.setHeader('Access-Control-Expose-Headers', corsConf.exposeHeaders)
+    res.setHeader('Access-Control-Allow-Origin', corsConf.allowOrigin!)
+    res.setHeader('Access-Control-Allow-Methods', corsConf.allowMethods!)
+    res.setHeader('Access-Control-Allow-Headers', corsConf.allowHeaders!)
+    res.setHeader('Access-Control-Max-Age', corsConf.maxAge!)
+    res.setHeader('Access-Control-Allow-Credentials', corsConf.allowCredentials!.toString())
+    res.setHeader('Access-Control-Expose-Headers', corsConf.exposeHeaders!)
 }

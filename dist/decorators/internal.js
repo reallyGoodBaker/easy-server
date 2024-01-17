@@ -61,7 +61,7 @@ const Controller = (path = '/') => {
 exports.Controller = Controller;
 const Headers = (headers) => (0, exports.createMethodDecorator)(({ key }, ctx) => {
     const addons = ctx.method(key).value.addons;
-    addons.set('headers', headers);
+    addons.set(exports.Headers, headers);
 });
 exports.Headers = Headers;
 exports.Response = (0, exports.createParamDecorator)((param, ctx) => {
@@ -84,7 +84,7 @@ const Body = (type = 'object') => (0, exports.createParamDecorator)(({ key, inde
 exports.Body = Body;
 exports.Mapping = (0, exports.createMethodDecorator)(({ key }, ctx) => {
     const addons = ctx.method(key).value.addons;
-    addons.set('@Mapping', true);
+    addons.set(exports.Mapping, true);
 });
 exports.PatternResult = (0, exports.createParamDecorator)(({ key, index }, ctx) => {
     const method = ctx.method(key);
