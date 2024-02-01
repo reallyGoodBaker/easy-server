@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.server = exports.addPlugin = exports.listen = exports.addController = void 0;
 const context_1 = require("./context");
 const node_http_1 = __importDefault(require("node:http"));
+const node_https_1 = __importDefault(require("node:https"));
 const node_url_1 = __importDefault(require("node:url"));
 const chalk_1 = __importDefault(require("chalk"));
 const query_1 = __importDefault(require("./plugins/internal/query"));
@@ -104,8 +105,10 @@ const defaultOpt = {
     port: 3000,
     host: 'localhost',
 };
+const defaultServerOpt = {};
 function listen(opt) {
     let _opt = defaultOpt;
+    let _sOpt = Object.assign({}, opt?.serverOptions, defaultServerOpt);
     switch (typeof opt) {
         case 'number':
             _opt.port = opt;
@@ -114,7 +117,8 @@ function listen(opt) {
             _opt = Object.assign(_opt, opt);
             break;
     }
-    node_http_1.default.createServer(async (req, res) => {
+    const httpModule = (_sOpt.key ? node_https_1.default : node_http_1.default);
+    httpModule.createServer(_sOpt, async (req, res) => {
         const reqUrl = node_url_1.default.parse(req.url ?? '');
         const paths = reqUrl.pathname?.split('/').slice(1) ?? [''];
         const controllerName = paths?.shift();

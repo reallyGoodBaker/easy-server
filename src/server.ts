@@ -1,6 +1,6 @@
 import { controllers, FunctionDesc, IContext, MethodCaller } from "./context"
 import http from 'node:http'
-import https from 'node:https'
+import https, { ServerOptions } from 'node:https'
 import url from 'node:url'
 import chalk from "chalk"
 import type { ListenOptions } from 'net'
@@ -140,8 +140,11 @@ const defaultOpt = {
     host: 'localhost',
 }
 
-export function listen(opt?: ListenOptions | number) {
+const defaultServerOpt = {}
+
+export function listen(opt?: (ListenOptions | number) & { serverOptions?: ServerOptions }) {
     let _opt: ListenOptions = defaultOpt
+    let _sOpt: ServerOptions = Object.assign({}, opt?.serverOptions, defaultServerOpt)
 
     switch (typeof opt) {
         case 'number':
@@ -153,7 +156,9 @@ export function listen(opt?: ListenOptions | number) {
             break
     }
 
-    http.createServer(async (req, res) => {
+    const httpModule = (_sOpt.key ? https : http) as typeof http
+
+    httpModule.createServer(_sOpt, async (req, res) => {
         const reqUrl = url.parse(req.url ?? '')
         const paths = reqUrl.pathname?.split('/').slice(1) ?? ['']
         const controllerName = paths?.shift()
