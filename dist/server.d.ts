@@ -9,7 +9,7 @@ export declare function addController(cls: Function): {
     listen: typeof listen;
 };
 export declare function listen(opt?: (ListenOptions | number) & {
-    serverOptions: ServerOptions;
+    serverOptions?: ServerOptions;
 }): void;
 export declare function addPlugin(plugin: Plugin): {
     addController: typeof addController;
